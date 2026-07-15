@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sorteador - SESI Spelling Bee</title>
+    <title>SESI Spelling Bee - Word Drawer</title>
     <style>
-        /* CONFIGURAÇÃO DO FUNDO DO JOGO */
+        /* BACKGROUND CONFIGURATION */
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
             text-align: center; 
             margin: 0; 
             padding: 20px;
-            /* Aqui chamamos a sua imagem de fundo */
             background-image: url('fundo.jpg'); 
             background-size: cover; 
             background-position: center; 
@@ -23,20 +22,19 @@
             box-sizing: border-box;
         }
 
-        /* CAIXA BRANCA CENTRAL (CONTAINER) */
+        /* MAIN CONTAINER */
         .container { 
             max-width: 500px; 
             width: 100%;
             padding: 30px; 
-            /* Fundo branco com leve transparência para mostrar o fundo colorido atrás */
-            background: rgba(255, 255, 255, 0.95); 
+            background: rgba(255, 255, 255, 0.96); 
             border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25); 
+            border: 1px solid rgba(255, 255, 255, 0.6);
             box-sizing: border-box;
         }
 
-        /* LOGO DO EVENTO */
+        /* LOGO */
         .logo {
             max-width: 220px;
             width: 100%;
@@ -46,7 +44,7 @@
 
         textarea { 
             width: 100%; 
-            height: 120px; 
+            height: 140px; 
             margin-bottom: 15px; 
             padding: 12px; 
             border-radius: 8px; 
@@ -57,87 +55,119 @@
         }
         
         textarea:focus {
-            border-color: #015bb4; /* Azul SESI */
+            border-color: #015bb4; 
             outline: none;
         }
 
-        /* BOTÕES */
+        /* SCOREBOARD */
+        .scoreboard {
+            display: flex;
+            justify-content: space-around;
+            background: #f8f9fa;
+            border: 1px solid #eaeaea;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .score-correct { color: #2ecc71; }
+        .score-incorrect { color: #e74c3c; }
+
+        /* BUTTONS STYLING */
         button { 
-            padding: 14px 24px; 
+            padding: 14px 28px; 
             font-size: 16px; 
             margin: 8px; 
             cursor: pointer; 
             border: none; 
             border-radius: 8px; 
-            font-weight: bold; 
-            transition: transform 0.1s, background-color 0.2s; 
+            font-weight: 800; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: transform 0.1s, background-color 0.2s, box-shadow 0.2s; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         button:active {
-            transform: scale(0.97);
+            transform: scale(0.95);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
         }
 
-        /* CORES DOS BOTÕES (Personalizáveis) */
+        /* VIBRANT COLORS FOR BUTTONS */
         .btn-start { 
-            background-color: #015bb4; /* Azul SESI */
+            background-color: #015bb4; /* SESI Blue */
             color: white; 
-            width: 80%;
+            width: 85%;
         }
         .btn-start:hover { background-color: #004487; }
 
         .btn-correct { 
-            background-color: #28a745; /* Verde Sucesso */
+            background-color: #2ecc71; /* Vibrant Green */
             color: white; 
         }
-        .btn-correct:hover { background-color: #1e7e34; }
+        .btn-correct:hover { background-color: #27ae60; }
 
         .btn-wrong { 
-            background-color: #dc3545; /* Vermelho Erro */
+            background-color: #e74c3c; /* Vibrant Red */
             color: white; 
         }
-        .btn-wrong:hover { background-color: #bd2130; }
+        .btn-wrong:hover { background-color: #c0392b; }
 
         .btn-reset { 
-            background-color: #6c757d; 
+            background-color: #f39c12; /* Vibrant Orange */
             color: white; 
             font-size: 12px; 
             padding: 8px 16px; 
             margin-top: 25px;
+            text-transform: none;
         }
+        .btn-reset:hover { background-color: #d35400; }
 
-        /* EXIBIÇÃO DA PALAVRA SORTEADA */
+        /* DRAWN WORD */
         .word-display { 
-            font-size: 42px; 
+            font-size: 44px; 
             font-weight: 800; 
-            margin: 25px 0; 
+            margin: 20px 0; 
             min-height: 60px; 
-            color: #015bb4; /* Azul SESI */
+            color: #2c3e50; 
             text-shadow: 1px 1px 0px rgba(0,0,0,0.05);
             word-wrap: break-word;
         }
 
-        p { font-size: 16px; color: #444; line-height: 1.4; }
+        p { font-size: 16px; color: #555; line-height: 1.4; margin: 8px 0; }
         strong { color: #111; }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Logo -->
         <img src="logo.png" alt="SESI Spelling Bee" class="logo">
         
+        <!-- SETUP SCREEN -->
         <div id="setup-area">
-            <p>Cole suas palavras para o torneio abaixo<br>(uma por linha):</p>
-            <textarea id="word-list" placeholder="Abelha&#10;Mel&#10;Colmeia"></textarea>
+            <p>Paste your spelling words below<br>(one per line):</p>
+            <textarea id="word-list" placeholder="Honeybee&#10;Spelling&#10;Challenge"></textarea>
             <br>
-            <button class="btn-start" onclick="startGame()">Iniciar Torneio</button>
+            <button class="btn-start" onclick="startGame()">Start Tournament</button>
         </div>
         
+        <!-- GAME SCREEN -->
         <div id="game-area" style="display: none;">
-            <p>Palavras restantes no "saco": <strong><span id="count">0</span></strong></p>
+            <p>Remaining words in pool: <strong><span id="count">0</span></strong></p>
+            
+            <!-- Dynamic Scoreboard -->
+            <div class="scoreboard">
+                <span class="score-correct">Correct: <span id="correct-count">0</span></span>
+                <span style="color: #ccc;">|</span>
+                <span class="score-incorrect">Incorrect: <span id="wrong-count">0</span></span>
+            </div>
+
             <div class="word-display" id="current-word">-</div>
-            <button class="btn-correct" onclick="handleResult(true)">Acertou! ✅</button>
-            <button class="btn-wrong" onclick="handleResult(false)">Errou... ❌</button>
+            
+            <button class="btn-correct" onclick="handleResult(true)">Correct! ✅</button>
+            <button class="btn-wrong" onclick="handleResult(false)">Incorrect... ❌</button>
             <br>
-            <button class="btn-reset" onclick="resetGame()">Nova Lista de Palavras</button>
+            <button class="btn-reset" onclick="resetGame()">New Word List</button>
         </div>
     </div>
 
@@ -145,14 +175,22 @@
         let words = [];
         let currentWord = '';
         let currentIndex = -1;
+        let correctCount = 0;
+        let wrongCount = 0;
 
         function startGame() {
             const text = document.getElementById('word-list').value;
             words = text.split('\n').map(w => w.trim()).filter(w => w.length > 0);
             if (words.length === 0) {
-                alert('Por favor, digite ou cole algumas palavras primeiro!');
+                alert('Please enter or paste some words first!');
                 return;
             }
+            // Reset scores
+            correctCount = 0;
+            wrongCount = 0;
+            document.getElementById('correct-count').innerText = correctCount;
+            document.getElementById('wrong-count').innerText = wrongCount;
+
             document.getElementById('setup-area').style.display = 'none';
             document.getElementById('game-area').style.display = 'block';
             drawWord();
@@ -160,7 +198,7 @@
 
         function drawWord() {
             if (words.length === 0) {
-                document.getElementById('current-word').innerText = 'Fim das palavras! 🏆';
+                document.getElementById('current-word').innerText = 'Finished! 🏆';
                 document.getElementById('count').innerText = '0';
                 return;
             }
@@ -172,10 +210,21 @@
 
         function handleResult(correct) {
             if (words.length === 0) return;
+            
+            // Updates score board
             if (correct) {
-                words.splice(currentIndex, 1); // Remove do sorteio
+                correctCount++;
+                document.getElementById('correct-count').innerText = correctCount;
+            } else {
+                wrongCount++;
+                document.getElementById('wrong-count').innerText = wrongCount;
             }
-            drawWord(); // Sorteia a próxima
+
+            // ALWAYS removes the word from the list, whether correct or incorrect
+            words.splice(currentIndex, 1); 
+            
+            // Draw the next word
+            drawWord(); 
         }
 
         function resetGame() {
